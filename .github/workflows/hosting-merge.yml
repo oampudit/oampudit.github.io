@@ -17,8 +17,8 @@ jobs:
           node-version: '18'
       
       # Install dependencies and build the project
-      - run: npm ci
-      - run: npm run build
+      # - run: npm ci
+      # - run: npm run build
       
       # Deploy the build folder to GitHub Pages
       - name: Deploy to GitHub Pages
