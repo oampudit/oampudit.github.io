@@ -32,7 +32,7 @@ function Projects() {
               imgPath={btcclock}
               title="BTC Clock"
               description="BTC Clock is a web app that displays real-time Bitcoin block height, price, satoshis per unit of currency, local time, and halving estimate."
-              demoLink="https://btc-clock.firebaseapp.com/"
+              demoLink="https://blockclock-online.firebaseapp.com/"
             />
           </Col>
 
