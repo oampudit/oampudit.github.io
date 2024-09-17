@@ -26,7 +26,6 @@ function Footer() {
               <a
                 href="https://github.com/oampudit"
                 style={{ color: "white" }}
-                target="_blank" 
               >
                 <AiFillGithub />
               </a>
@@ -36,18 +35,15 @@ function Footer() {
               <a
                 href="https://gitlab.com/oampudit"
                 style={{ color: "white" }}
-                target="_blank" 
               >
                 <AiFillGitlab />
               </a>
             </li>
-           
+
             <li className="social-icons">
               <a
                 href="https://www.linkedin.com/in/puditc"
                 style={{ color: "white" }}
-                target="_blank" 
-                rel="noopener noreferrer"
               >
                 <FaLinkedinIn />
               </a>
@@ -56,7 +52,6 @@ function Footer() {
               <a
                 href="https://www.facebook.com/oam543"
                 style={{ color: "white" }}
-                target="_blank" 
               >
                 <AiFillFacebook />
               </a>
@@ -65,7 +60,6 @@ function Footer() {
               <a
                 href="https://www.instagram.com/oam_pudit"
                 style={{ color: "white" }}
-                target="_blank" 
               >
                 <AiFillInstagram />
               </a>

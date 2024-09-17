@@ -1,7 +1,5 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import { VscDebugStackframe } from "react-icons/vsc";
-import PropTypes from 'prop-types';
 
 function AboutCard() {
   return (
