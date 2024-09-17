@@ -22,8 +22,6 @@ jobs:
       
       # Deploy the build folder to GitHub Pages
       - name: Deploy to GitHub Pages
-        run: |
-          npm install -g gh-pages
-          gh-pages -d build
+        run: gh-pages -d build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
