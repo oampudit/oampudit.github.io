@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
-import logo from "../Assets/logo.png";
-import { Link } from "react-router-dom";
-import {
-  AiOutlineHome,
-  AiOutlineFundProjectionScreen,
-  AiOutlineUser,
-} from "react-icons/ai";
+import React, { useState, useEffect } from "react";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { motion } from "framer-motion";
+import "./Navbar.css";
 
-function NavBar() {
+const NavbarComponent = ({ onNavigate, currentSection }) => {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
+
+  const navItems = [
+    { id: 'home', label: 'Home', icon: '🏠' },
+    { id: 'about', label: 'About', icon: '👨‍💻' },
+    { id: 'skills', label: 'Skills', icon: '🎯' },
+    { id: 'experience', label: 'Experience', icon: '📈' },
+  ];
 
   function scrollHandler() {
     if (window.scrollY >= 20) {
@@ -22,7 +22,10 @@ function NavBar() {
     }
   }
 
-  window.addEventListener("scroll", scrollHandler);
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, []);
 
   return (
     <Navbar
@@ -32,9 +35,19 @@ function NavBar() {
       className={navColour ? "sticky" : "navbar"}
     >
       <Container>
-        <Navbar.Brand href="/" className="d-flex">
-          <img src={logo} className="img-fluid logo" alt="Logo" />
-        </Navbar.Brand>
+        <motion.div
+          className="navbar-brand-container"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Navbar.Brand 
+            className="navbar-brand"
+            onClick={() => onNavigate('home')}
+          >
+            <strong>PUDIT</strong>
+          </Navbar.Brand>
+        </motion.div>
+
         <Navbar.Toggle
           aria-controls="responsive-navbar-nav"
           onClick={() => {
@@ -45,51 +58,28 @@ function NavBar() {
           <span></span>
           <span></span>
         </Navbar.Toggle>
+
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto" defaultActiveKey="#home">
-            <Nav.Item>
-              <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
-                <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
-              </Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/about"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About
-              </Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/project"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineFundProjectionScreen
-                  style={{ marginBottom: "2px" }}
-                />{" "}
-                Projects
-              </Nav.Link>
-            </Nav.Item>
-
-            {/* <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/resume"
-                onClick={() => updateExpanded(false)}
-              >
-                <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
-              </Nav.Link>
-            </Nav.Item> */}
+            {navItems.map((item) => (
+              <Nav.Item key={item.id}>
+                <Nav.Link
+                  className={`nav-link ${currentSection === item.id ? 'active-nav-link' : ''}`}
+                  onClick={() => {
+                    onNavigate(item.id);
+                    updateExpanded(false);
+                  }}
+                >
+                  <span className="nav-icon">{item.icon}</span>
+                  {item.label}
+                </Nav.Link>
+              </Nav.Item>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
-}
+};
 
-export default NavBar;
+export default NavbarComponent;

@@ -1,28 +1,36 @@
 import React from "react";
-import Card from "react-bootstrap/Card";
+import { motion } from "framer-motion";
 
 function AboutCard() {
   return (
-    <Card className="quote-card-view">
-      <Card.Body>
-        <blockquote className="blockquote mb-0">
-          <p style={{ textAlign: "justify" }}>
-            Hello Everyone! I am <span className="blue">Pudit Chokmeesuk</span>, based in the dynamic city of <span className="blue">Bangkok, Thailand.</span>
-            <br />
-            I currently embrace the role of a Full-Stack Developer, where I fuse innovation with practicality in software development. My journey in this field has been deeply influenced by my proficiency in diverse programming languages like C#, Dart, and TypeScript.
-            <br />
-            <br />
-            My expertise extends to working with robust frameworks and libraries including the .NET Framework, Angular, and Flutter, enhancing my ability to develop versatile and high-performance web solutions. I am equally adept in the realms of HTML and CSS, underpinning my strong foundation in modern web development practices.
-            <br />
-            <br />
-            The intricacies of database systems fascinate me, particularly Oracle Database (PL/SQL), where I have developed complex and efficient database solutions. My experience with version control systems, including Git, GitHub, and GitLab, has been pivotal in maintaining code integrity and facilitating team collaboration.
-            <br />
-            <br />
-            Additionally, I have a practical understanding of Unreal Engine 4 and have leveraged Firebase in the development of scalable applications. This diverse skill set not only empowers my professional growth but also allows me to contribute significantly to various projects.
-          </p>
-        </blockquote>
-      </Card.Body>
-    </Card>
+    <motion.div 
+      className="about-card"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+    >
+      <div className="about-content">
+        <p className="about-text">
+          Hello Everyone! I am <span className="highlight">Pudit Chokmeesuk</span>, a Full-Stack Developer based in <span className="highlight">Bangkok, Thailand</span> with expertise in C#, Angular, .NET, and SQL.
+        </p>
+        
+        <p className="about-text">
+          Currently working at <span className="highlight">PTT Digital Solutions</span> as a Mid-Level Software Developer, I specialize in building dynamic, scalable web and mobile applications. My experience spans across delivering end-to-end solutions that enhance business processes and operational efficiency.
+        </p>
+        
+        <p className="about-text">
+          I have a proven ability to lead digital transformation projects, improving system performance and user experience. My technical expertise includes C#, Dart, TypeScript, PL/SQL, JavaScript, and Python, along with frameworks like .NET Core, Angular, and Flutter.
+        </p>
+        
+        <p className="about-text">
+          I've successfully worked with databases including Oracle and Microsoft SQL Server, and have experience with cloud platforms like Azure, Firebase, and various development tools. My background includes significant experience at Bangkok Life Assurance and BizCon Solutions, where I've delivered impactful solutions for insurance systems and infrastructure management.
+        </p>
+        
+        <p className="about-text">
+          I hold a Master of Business Management from Mahidol University and a Bachelor of Electrical Engineering from King Mongkut's University of Technology North Bangkok, combining technical expertise with business acumen.
+        </p>
+      </div>
+    </motion.div>
   );
 }
 

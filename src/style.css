@@ -205,6 +205,48 @@ button:focus {
   width: 100%;
 }
 
+.active-nav-link {
+  color: #346aff !important;
+  font-weight: bold;
+}
+
+.active-nav-link::after {
+  width: 100% !important;
+  background: #346aff !important;
+}
+
+.navbar-brand-container {
+  cursor: pointer;
+}
+
+/* Global Styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0a0a0a;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+  background: rgba(52, 106, 255, 0.3);
+  color: #ffffff;
+}
+
 /* --------- */
 /* Home section */
 /* --------- */
@@ -248,60 +290,141 @@ button:focus {
   background-size: cover !important;
   width: 100%;
   height: 100%;
+  z-index: 0;
+}
+
+/* Global Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+}
+
+/* Global Button Styles */
+.btn-primary {
+  background: #ff4757;
+  color: #ffffff;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: #ff6b7a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 15px 30px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .home-header {
-  padding-top: 80px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0;
 }
 
+/* Global Modern Styles */
+.modern-portfolio,
+.modern-about,
+.modern-skills,
+.modern-projects {
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  padding: 120px 0 80px 0;
+}
+
+/* Override old home-section styles */
 .home-section {
   position: relative;
-  z-index: -1;
-  background-image: var(--image-gradient), url(./Assets/home-bg.png);
-  background-position: top center;
-  background-repeat: no-repeat;
-  padding-bottom: 30px !important;
-  padding-top: 30px !important;
+  z-index: 1;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0 0 0;
 }
 
+/* Override old home-content styles */
 .home-content {
-  padding: 9rem 0 2rem !important;
-  color: whitesmoke;
-  text-align: left;
+  padding: 0 !important;
+  z-index: 10;
+  position: relative;
 }
 
+/* Override old heading styles */
 .heading {
-  font-size: 2.4em !important;
-  padding-left: 50px !important;
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  padding-left: 0 !important;
 }
 
 .heading-name {
-  font-size: 2.5em !important;
-  padding-left: 45px !important;
+  color: #ffffff;
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+  padding-left: 0 !important;
 }
 
 .main-name {
-  color: #5f69f8;
+  color: #346aff;
+  font-weight: 600;
+  position: relative;
 }
 
 .Typewriter__wrapper {
-  font-size: 2.2em !important;
-  color: #6a76df !important;
-  font-weight: 600 !important;
+  font-size: 1.5rem !important;
+  color: #00ff88 !important;
+  font-weight: 400 !important;
 }
 .Typewriter__cursor {
-  font-size: 2.4em !important;
-  color: #6a76df !important;
+  font-size: 1.5rem !important;
+  color: #00ff88 !important;
 }
 
 @media (max-width: 767px) {
   .Typewriter__wrapper {
-    font-size: 1.4em !important;
-    font-weight: 500 !important;
-    position: absolute !important;
+    font-size: 1.2rem !important;
+    font-weight: 400 !important;
+    position: relative !important;
   }
   .Typewriter__cursor {
-    display: none !important;
+    display: inline !important;
   }
 }
 
