@@ -1,24 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.55fa36f7.css",
-    "main.js": "/static/js/main.22dffa9e.js",
+    "main.css": "/static/css/main.5ef32337.css",
+    "main.js": "/static/js/main.badf26dc.js",
     "static/js/415.735347e0.chunk.js": "/static/js/415.735347e0.chunk.js",
     "static/js/787.6adef1ae.chunk.js": "/static/js/787.6adef1ae.chunk.js",
     "static/media/profile.png": "/static/media/profile.6625dd9f561dd83cd78f.png",
     "static/media/regolich.png": "/static/media/regolich.9b732ed66d687509d554.png",
     "static/media/mysteryagents.png": "/static/media/mysteryagents.694d739b93c846f38029.png",
-    "static/media/Pudit-Resume.pdf": "/static/media/Pudit-Resume.f5c126f478a6f14a1a9c.pdf",
     "static/media/btc-clock.png": "/static/media/btc-clock.7fcc1dc420387330c5c5.png",
     "static/media/about.png": "/static/media/about.1d75f121bacfbb22bd8b.png",
     "static/media/pre.svg": "/static/media/pre.848632340693a099627d.svg",
     "index.html": "/index.html",
-    "main.55fa36f7.css.map": "/static/css/main.55fa36f7.css.map",
-    "main.22dffa9e.js.map": "/static/js/main.22dffa9e.js.map",
+    "main.5ef32337.css.map": "/static/css/main.5ef32337.css.map",
+    "main.badf26dc.js.map": "/static/js/main.badf26dc.js.map",
     "415.735347e0.chunk.js.map": "/static/js/415.735347e0.chunk.js.map",
     "787.6adef1ae.chunk.js.map": "/static/js/787.6adef1ae.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.55fa36f7.css",
-    "static/js/main.22dffa9e.js"
+    "static/css/main.5ef32337.css",
+    "static/js/main.badf26dc.js"
   ]
 }
