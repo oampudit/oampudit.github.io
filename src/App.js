@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
+import Projects from "./components/Projects/Projects";
 import Footer from "./components/Footer";
 import Skills3DAlternative from "./components/Skills3D/Skills3DAlternative";
 import ExperienceTimeline from "./components/ExperienceTimeline/ExperienceTimeline";
@@ -23,6 +24,8 @@ function App() {
         return <ExperienceTimeline />;
       case 'about':
         return <About />;
+      case 'projects':
+        return <Projects />;
       default:
         return <Home onNavigate={setCurrentSection} />;
     }

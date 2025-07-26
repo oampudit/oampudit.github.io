@@ -12,6 +12,7 @@ const NavbarComponent = ({ onNavigate, currentSection }) => {
     { id: 'about', label: 'About', icon: '👨‍💻' },
     { id: 'skills', label: 'Skills', icon: '🎯' },
     { id: 'experience', label: 'Experience', icon: '📈' },
+    { id: 'projects', label: 'Projects', icon: '🚀' },
   ];
 
   function scrollHandler() {

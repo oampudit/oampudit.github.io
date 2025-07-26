@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { motion, useViewportScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 import ProjectCard from "./ProjectCards";
@@ -29,7 +29,7 @@ function Projects() {
   const headerY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const gridY = useTransform(scrollYProgress, [0.2, 1], [0, -50]);
 
-  const projectsData = [
+  const projectsData = useMemo(() => [
     {
       id: 1,
       title: "Mystery Agents",
@@ -72,7 +72,7 @@ function Projects() {
       status: "in-progress",
       year: 2024
     }
-  ];
+  ], []);
 
   const filters = [
     { id: 'all', label: 'All Projects', count: projectsData.length },
@@ -377,7 +377,7 @@ function Projects() {
                 <div className="modal-image">
                   <img src={selectedProject.imgPath} alt={selectedProject.title} />
                   <div className="modal-image-overlay">
-                    <span className="project-status">{selectedProject.status}</span>
+                    <span className="modal-project-status">{selectedProject.status}</span>
                   </div>
                 </div>
                 
@@ -387,11 +387,11 @@ function Projects() {
                   
                   <div className="modal-technologies">
                     <h3>Technologies Used:</h3>
-                    <div className="tech-tags">
+                    <div className="modal-tech-tags">
                       {selectedProject.technologies.map((tech, index) => (
                         <motion.span
                           key={tech}
-                          className="tech-tag"
+                          className="modal-tech-tag"
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}

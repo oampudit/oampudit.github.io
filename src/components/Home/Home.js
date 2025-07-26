@@ -673,61 +673,6 @@ function Home({ onNavigate }) {
             ))}
           </motion.div>
         </section>
-
-        {/* Projects Section */}
-        <section className="projects-section" ref={projectsRef}>
-          <motion.div
-            style={{ y: projectsY }}
-            className="projects-background"
-          />
-          <motion.div
-            className="projects-header"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.7 }}
-          >
-            <h2 className="projects-title">Featured Projects</h2>
-            <div className="projects-line"></div>
-            <p className="projects-subtitle">Some of my recent work</p>
-          </motion.div>
-          
-          <motion.div
-            className="projects-grid"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.9 }}
-          >
-            <Row>
-              {projectsData.map((project, index) => (
-                <Col lg={4} md={6} className="project-card-wrapper" key={project.id}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 2.1 + index * 0.1 }}
-                    whileHover={{ 
-                      y: -15,
-                      scale: 1.02,
-                      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
-                    }}
-                    onMouseEnter={() => cursorScale.set(1.2)}
-                    onMouseLeave={() => cursorScale.set(1)}
-                  >
-                    <ProjectCard
-                      imgPath={project.imgPath}
-                      title={project.title}
-                      description={project.description}
-                      demoLink={project.demoLink}
-                      githubLink={project.githubLink}
-                      technologies={project.technologies}
-                      status={project.status}
-                      year={project.year}
-                    />
-                  </motion.div>
-                </Col>
-              ))}
-            </Row>
-          </motion.div>
-        </section>
       </Container>
     </div>
   );
