@@ -202,8 +202,7 @@ function Home({ onNavigate }) {
   const stats = [
     { number: "5+", label: "Years Experience", icon: "⏰" },
     { number: "50+", label: "Projects Completed", icon: "🚀" },
-    { number: "100%", label: "Client Satisfaction", icon: "⭐" },
-    { number: "24/7", label: "Support Available", icon: "🛠️" }
+    { number: "100%", label: "Client Satisfaction", icon: "⭐" }
   ];
 
   const achievements = [
