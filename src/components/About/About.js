@@ -11,8 +11,6 @@ import "./About.css";
 
 function About() {
   const [activeSection, setActiveSection] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
   
   const heroRef = useRef(null);
   const skillsRef = useRef(null);
@@ -38,19 +36,16 @@ function About() {
   // Mouse tracking
   useEffect(() => {
     const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
     };
 
     const handleMouseEnter = () => {
       cursorOpacity.set(1);
-      setIsHovering(true);
     };
 
     const handleMouseLeave = () => {
       cursorOpacity.set(0);
-      setIsHovering(false);
     };
 
     const handleScroll = () => {

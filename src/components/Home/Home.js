@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { motion, useViewportScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
+import { motion, useViewportScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import profileImage from "../../Assets/profile.png";
 import Particle from "../Particle";
 import ProjectCard from "../Projects/ProjectCards";
@@ -43,20 +43,18 @@ function Home({ onNavigate }) {
   const heroY = useTransform(scrollYProgress, [0, 1], [0, -300]);
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
   const skillsY = useTransform(scrollYProgress, [0, 0.5], [0, -200]);
-  const aboutY = useTransform(scrollYProgress, [0.2, 0.8], [0, -150]);
   const projectsY = useTransform(scrollYProgress, [0.4, 1], [0, -100]);
 
-  // Typing effect
-  const typingTexts = [
-    "Full-Stack Developer",
-    "C# & .NET Expert",
-    "Angular Developer",
-    "Azure Cloud Specialist",
-    "Mobile Developer (Flutter)",
-    "Database Engineer"
-  ];
-
   useEffect(() => {
+    const typingTexts = [
+      "Full-Stack Developer",
+      "C# & .NET Expert",
+      "Angular Developer",
+      "Azure Cloud Specialist",
+      "Mobile Developer (Flutter)",
+      "Database Engineer"
+    ];
+    
     const targetText = typingTexts[textIndex % typingTexts.length];
     
     if (!isDeleting) {
@@ -86,7 +84,7 @@ function Home({ onNavigate }) {
         setTextIndex((prevIndex) => (prevIndex + 1) % typingTexts.length);
       }
     }
-  }, [currentText, isDeleting, textIndex, typingTexts]);
+  }, [currentText, isDeleting, textIndex]);
 
   // Mouse tracking with trail effect
   useEffect(() => {

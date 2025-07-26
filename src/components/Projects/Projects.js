@@ -12,8 +12,6 @@ function Projects() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
   
   const headerRef = useRef(null);
   const gridRef = useRef(null);
@@ -87,19 +85,16 @@ function Projects() {
   // Mouse tracking
   useEffect(() => {
     const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
     };
 
     const handleMouseEnter = () => {
       cursorOpacity.set(1);
-      setIsHovering(true);
     };
 
     const handleMouseLeave = () => {
       cursorOpacity.set(0);
-      setIsHovering(false);
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -122,7 +117,7 @@ function Projects() {
         project.category === activeFilter || project.status === activeFilter
       ));
     }
-  }, [activeFilter]);
+  }, [activeFilter, projectsData]);
 
   const handleProjectClick = (project) => {
     setSelectedProject(project);
