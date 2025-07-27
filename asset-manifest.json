@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.5ef32337.css",
-    "main.js": "/static/js/main.badf26dc.js",
-    "static/js/415.735347e0.chunk.js": "/static/js/415.735347e0.chunk.js",
-    "static/js/787.6adef1ae.chunk.js": "/static/js/787.6adef1ae.chunk.js",
+    "main.css": "/static/css/main.63771b90.css",
+    "main.js": "/static/js/main.4ff1170e.js",
+    "static/js/770.19cc6958.chunk.js": "/static/js/770.19cc6958.chunk.js",
+    "static/js/453.a5fa49c2.chunk.js": "/static/js/453.a5fa49c2.chunk.js",
     "static/media/profile.png": "/static/media/profile.6625dd9f561dd83cd78f.png",
+    "static/media/mysteryagents.png": "/static/media/mysteryagents.3e8d2914924a03877b8d.png",
     "static/media/regolich.png": "/static/media/regolich.9b732ed66d687509d554.png",
-    "static/media/mysteryagents.png": "/static/media/mysteryagents.694d739b93c846f38029.png",
-    "static/media/btc-clock.png": "/static/media/btc-clock.7fcc1dc420387330c5c5.png",
+    "static/media/btc-clock.png": "/static/media/btc-clock.8cf341b96e15feca11cc.png",
     "static/media/about.png": "/static/media/about.1d75f121bacfbb22bd8b.png",
     "static/media/pre.svg": "/static/media/pre.848632340693a099627d.svg",
     "index.html": "/index.html",
-    "main.5ef32337.css.map": "/static/css/main.5ef32337.css.map",
-    "main.badf26dc.js.map": "/static/js/main.badf26dc.js.map",
-    "415.735347e0.chunk.js.map": "/static/js/415.735347e0.chunk.js.map",
-    "787.6adef1ae.chunk.js.map": "/static/js/787.6adef1ae.chunk.js.map"
+    "main.63771b90.css.map": "/static/css/main.63771b90.css.map",
+    "main.4ff1170e.js.map": "/static/js/main.4ff1170e.js.map",
+    "770.19cc6958.chunk.js.map": "/static/js/770.19cc6958.chunk.js.map",
+    "453.a5fa49c2.chunk.js.map": "/static/js/453.a5fa49c2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5ef32337.css",
-    "static/js/main.badf26dc.js"
+    "static/css/main.63771b90.css",
+    "static/js/main.4ff1170e.js"
   ]
 }
