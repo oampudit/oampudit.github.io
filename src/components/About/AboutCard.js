@@ -34,8 +34,4 @@ function AboutCard() {
   );
 }
 
-AboutCard.propTypes = {
-  // Define your prop types here if any
-};
-
 export default AboutCard;

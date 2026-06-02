@@ -1,681 +1,508 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { motion, useViewportScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import profileImage from "../../Assets/profile.png";
-import Particle from "../Particle";
-import ProjectCard from "../Projects/ProjectCards";
-import mysteryagents from "../../Assets/Projects/mysteryagents.png";
-import btcclock from "../../Assets/Projects/btc-clock.png";
-import regolich from "../../Assets/Projects/regolich.png";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { projects } from "../../data/projects";
+import profileImg from "../../Assets/profile.png";
+import resumePdf from "../../Assets/Pudit-Resume.pdf";
 import "./Home.css";
 
-function Home({ onNavigate }) {
-  const [activeSection, setActiveSection] = useState(0);
-  const [currentText, setCurrentText] = useState("");
-  const [textIndex, setTextIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [mouseTrail, setMouseTrail] = useState([]);
-  const [skillProgress, setSkillProgress] = useState({});
-  const [isSkillVisible, setIsSkillVisible] = useState(false);
-  const [particleCount, setParticleCount] = useState(50);
-  const [isGlitchActive, setIsGlitchActive] = useState(false);
-  
-  const containerRef = useRef(null);
-  const heroRef = useRef(null);
-  const skillsRef = useRef(null);
-  const aboutRef = useRef(null);
-  const projectsRef = useRef(null);
+/* ------------------------------------------------------------------ */
+/* Atelier + Control Room — editorial hero, live GitHub instrument     */
+/* panel, marquee, and a hover-preview work list. Blue-on-charcoal.    */
+/* ------------------------------------------------------------------ */
 
-  const { scrollYProgress } = useViewportScroll();
-  const springConfig = { damping: 20, stiffness: 100 };
+const ROLES = [
+  "Full-Stack Engineer",
+  "C# & .NET specialist",
+  "Azure cloud developer",
+  "Flutter for mobile",
+];
 
-  // Advanced cursor effects
-  const cursorX = useSpring(useMotionValue(0), springConfig);
-  const cursorY = useSpring(useMotionValue(0), springConfig);
-  const cursorScale = useSpring(useMotionValue(1), springConfig);
-  const cursorOpacity = useSpring(useMotionValue(0), springConfig);
+const MARQUEE = [
+  "C#", ".NET Core", "Angular", "Azure", "Flutter", "SQL Server", "React", "Firebase",
+];
 
-  // 3D tilt effects
-  const tiltX = useSpring(useMotionValue(0), springConfig);
-  const tiltY = useSpring(useMotionValue(0), springConfig);
+const GH_USER = "oampudit";
+const GH_LINK = "https://github.com/oampudit";
+const LINKEDIN_LINK = "https://www.linkedin.com/in/puditc";
+const EMAIL_LINK = "mailto:pudit.chok@gmail.com";
 
-  // Parallax effects
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, -300]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
-  const skillsY = useTransform(scrollYProgress, [0, 0.5], [0, -200]);
-  const projectsY = useTransform(scrollYProgress, [0.4, 1], [0, -100]);
+const FB_LANGS = [
+  { name: "C#", pct: 38 },
+  { name: "TypeScript", pct: 24 },
+  { name: "Dart", pct: 16 },
+  { name: "JavaScript", pct: 14 },
+  { name: "PLSQL", pct: 8 },
+];
+const FB_FEED = [
+  { verb: "push", arrow: true, repo: "blockclock-online", when: "2d" },
+  { verb: "create", arrow: false, repo: "regolich", when: "1w" },
+  { verb: "push", arrow: true, repo: "mystery-agents", when: "2w" },
+  { verb: "release", arrow: false, repo: "btc-clock", when: "3w" },
+  { verb: "push", arrow: true, repo: "portfolio", when: "1mo" },
+];
+
+const EVENT_VERB = {
+  PushEvent: { verb: "push", arrow: true },
+  CreateEvent: { verb: "create", arrow: false },
+  PullRequestEvent: { verb: "PR", arrow: false },
+  ReleaseEvent: { verb: "release", arrow: false },
+  WatchEvent: { verb: "starred", arrow: false },
+  ForkEvent: { verb: "fork", arrow: false },
+  IssuesEvent: { verb: "issue", arrow: false },
+};
+
+// Module-level cache so navigating away and back doesn't burn the
+// unauthenticated GitHub API budget (60 req/hr per IP).
+let ghCache = null;
+
+function seeded(i) {
+  const x = Math.sin(i * 97.13) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+function heatLevel(r) {
+  if (r > 0.85) return 4;
+  if (r > 0.68) return 3;
+  if (r > 0.5) return 2;
+  if (r > 0.3) return 1;
+  return 0;
+}
+
+function ago(d) {
+  const s = (Date.now() - new Date(d)) / 1000;
+  if (s < 3600) return Math.floor(s / 60) + "m";
+  if (s < 86400) return Math.floor(s / 3600) + "h";
+  if (s < 2592000) return Math.floor(s / 86400) + "d";
+  return Math.floor(s / 2592000) + "mo";
+}
+
+/* ---------- typewriter role line ---------- */
+function useTypewriter(words) {
+  const [text, setText] = useState("");
+  const [i, setI] = useState(0);
+  const [del, setDel] = useState(false);
 
   useEffect(() => {
-    const typingTexts = [
-      "Full-Stack Developer",
-      "C# & .NET Expert",
-      "Angular Developer",
-      "Azure Cloud Specialist",
-      "Mobile Developer (Flutter)",
-      "Database Engineer"
-    ];
-    
-    const targetText = typingTexts[textIndex % typingTexts.length];
-    
-    if (!isDeleting) {
-      // Typing phase
-      if (currentText.length < targetText.length) {
-        // Continue typing
-        const timeout = setTimeout(() => {
-          setCurrentText(targetText.slice(0, currentText.length + 1));
-        }, 100);
-        return () => clearTimeout(timeout);
-      } else {
-        // Finished typing, start deleting after delay
-        const timeout = setTimeout(() => setIsDeleting(true), 1500);
-        return () => clearTimeout(timeout);
-      }
+    const t = words[i % words.length];
+    let timer;
+    if (!del && text.length < t.length) {
+      timer = setTimeout(() => setText(t.slice(0, text.length + 1)), 65);
+    } else if (!del && text.length === t.length) {
+      timer = setTimeout(() => setDel(true), 1700);
+    } else if (del && text.length > 0) {
+      timer = setTimeout(() => setText(t.slice(0, text.length - 1)), 30);
     } else {
-      // Deleting phase
-      if (currentText.length > 0) {
-        // Continue deleting
-        const timeout = setTimeout(() => {
-          setCurrentText(currentText.slice(0, currentText.length - 1));
-        }, 50);
-        return () => clearTimeout(timeout);
-      } else {
-        // Finished deleting, move to next text
-        setIsDeleting(false);
-        setTextIndex((prevIndex) => (prevIndex + 1) % typingTexts.length);
-      }
+      timer = setTimeout(() => {
+        setDel(false);
+        setI((p) => p + 1);
+      }, 250);
     }
-  }, [currentText, isDeleting, textIndex]);
+    return () => clearTimeout(timer);
+  }, [text, del, i, words]);
 
-  // Mouse tracking with trail effect
+  return text;
+}
+
+/* ---------- magnetic button helpers ---------- */
+function magneticHandlers(strengthX = 0.28, strengthY = 0.35) {
+  return {
+    onMouseMove: (e) => {
+      const r = e.currentTarget.getBoundingClientRect();
+      e.currentTarget.style.transform = `translate(${
+        (e.clientX - r.left - r.width / 2) * strengthX
+      }px, ${(e.clientY - r.top - r.height / 2) * strengthY}px)`;
+    },
+    onMouseLeave: (e) => {
+      e.currentTarget.style.transform = "";
+    },
+  };
+}
+
+export default function Home({ onNavigate }) {
+  const role = useTypewriter(ROLES);
+
+  /* nav-scrolled flag drives the hero's own scroll cue only; the shared
+     Navbar manages its own scrolled state. */
+
+  /* ---------- portrait tilt ---------- */
+  const plateRef = useRef(null);
+  const frameRef = useRef(null);
+  const onPlateMove = (e) => {
+    const r = plateRef.current.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    if (frameRef.current)
+      frameRef.current.style.transform = `perspective(900px) rotateX(${
+        -y * 7
+      }deg) rotateY(${x * 9}deg)`;
+  };
+  const onPlateLeave = () => {
+    if (frameRef.current) frameRef.current.style.transform = "";
+  };
+
+  /* ---------- work preview ---------- */
+  const previewRef = useRef(null);
+  const previewImgRef = useRef(null);
+  const showPreview = useCallback((src) => {
+    if (previewImgRef.current) previewImgRef.current.src = src;
+    previewRef.current?.classList.add("is-shown");
+  }, []);
+  const hidePreview = useCallback(() => {
+    previewRef.current?.classList.remove("is-shown");
+  }, []);
+  const movePreview = useCallback((e) => {
+    if (!previewRef.current) return;
+    previewRef.current.style.left = e.clientX + "px";
+    previewRef.current.style.top = e.clientY + "px";
+  }, []);
+
+  /* ---------- live clock (Bangkok) ---------- */
+  const [clock, setClock] = useState({ h: "--", m: "--", s: "--", date: "Bangkok, Thailand" });
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      
-      // 3D tilt effect
-      const rect = containerRef.current?.getBoundingClientRect();
-      if (rect) {
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const tiltXValue = (e.clientX - centerX) / (rect.width / 2) * 10;
-        const tiltYValue = (e.clientY - centerY) / (rect.height / 2) * 10;
-        tiltX.set(tiltXValue);
-        tiltY.set(tiltYValue);
+    const p = (n) => String(n).padStart(2, "0");
+    const tick = () => {
+      const now = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" })
+      );
+      setClock({
+        h: p(now.getHours()),
+        m: p(now.getMinutes()),
+        s: p(now.getSeconds()),
+        date: now.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" }),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  /* ---------- live GitHub signals ---------- */
+  const [stats, setStats] = useState({ repos: "—", followers: "fetching…" });
+  const [langs, setLangs] = useState(FB_LANGS);
+  const [feed, setFeed] = useState(FB_FEED);
+  const [heat, setHeat] = useState(() => Array.from({ length: 17 * 7 }, (_, i) => heatLevel(seeded(i))));
+  const [heatLabel, setHeatLabel] = useState("last 17 weeks");
+  const [apiStatus, setApiStatus] = useState("CONNECTING · GITHUB API");
+
+  useEffect(() => {
+    let mounted = true;
+
+    const apply = (data) => {
+      if (!mounted) return;
+      setStats(data.stats);
+      if (data.langs) setLangs(data.langs);
+      if (data.feed) setFeed(data.feed);
+      if (data.heat) {
+        setHeat(data.heat);
+        setHeatLabel("from public events");
       }
-
-      // Mouse trail effect
-      setMouseTrail(prev => {
-        const newTrail = [...prev, { x: e.clientX, y: e.clientY, id: Date.now() }];
-        return newTrail.slice(-20); // Keep last 20 positions
-      });
+      setApiStatus("LIVE · GITHUB API ✓");
     };
 
-    const handleMouseEnter = () => {
-      cursorOpacity.set(1);
-    };
-
-    const handleMouseLeave = () => {
-      cursorOpacity.set(0);
-    };
-
-    const handleScroll = () => {
-      // Update active section based on scroll position
-      const sections = [heroRef, skillsRef, aboutRef, projectsRef];
-      const current = sections.findIndex((ref, index) => {
-        if (!ref.current) return false;
-        const rect = ref.current.getBoundingClientRect();
-        return rect.top <= 100 && rect.bottom >= 100;
-      });
-      setActiveSection(current >= 0 ? current : 0);
-    };
-
-    // Skill progress animation
-    const handleSkillIntersection = (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setIsSkillVisible(true);
-          // Animate skill progress
-          const skills = ['C#', '.NET', 'Angular', 'Azure', 'Flutter', 'SQL'];
-          skills.forEach((skill, index) => {
-            setTimeout(() => {
-              setSkillProgress(prev => ({
-                ...prev,
-                [skill]: Math.floor(Math.random() * 30) + 70 // 70-100%
-              }));
-            }, index * 200);
-          });
-        }
-      });
-    };
-
-    const skillObserver = new IntersectionObserver(handleSkillIntersection, {
-      threshold: 0.3
-    });
-
-    if (skillsRef.current) {
-      skillObserver.observe(skillsRef.current);
+    if (ghCache) {
+      apply(ghCache);
+      return;
     }
 
-    // Glitch effect
-    const glitchInterval = setInterval(() => {
-      setIsGlitchActive(true);
-      setTimeout(() => setIsGlitchActive(false), 200);
-    }, 5000);
+    (async () => {
+      try {
+        const u = await fetch(`https://api.github.com/users/${GH_USER}`);
+        if (!u.ok) throw new Error("rate");
+        const user = await u.json();
+        const out = {
+          stats: {
+            repos: user.public_repos ?? "—",
+            followers: `${user.followers ?? 0} followers · ${user.following ?? 0} following`,
+          },
+        };
 
-    // Particle interaction
-    const particleInterval = setInterval(() => {
-      setParticleCount(prev => Math.max(30, Math.min(80, prev + (Math.random() > 0.5 ? 5 : -5))));
-    }, 3000);
+        const rr = await fetch(
+          `https://api.github.com/users/${GH_USER}/repos?per_page=100&sort=updated`
+        );
+        if (rr.ok) {
+          const repos = await rr.json();
+          const tally = {};
+          repos.forEach((r) => {
+            if (r.language) tally[r.language] = (tally[r.language] || 0) + 1;
+          });
+          const total = Object.values(tally).reduce((a, b) => a + b, 0);
+          if (total) {
+            out.langs = Object.entries(tally)
+              .map(([name, c]) => ({ name, pct: Math.round((c / total) * 100) }))
+              .sort((a, b) => b.pct - a.pct);
+          }
+        }
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseenter', handleMouseEnter);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    window.addEventListener('scroll', handleScroll);
+        const er = await fetch(
+          `https://api.github.com/users/${GH_USER}/events/public?per_page=30`
+        );
+        if (er.ok) {
+          const ev = await er.json();
+          if (ev.length) {
+            out.feed = ev.slice(0, 5).map((e) => {
+              const m = EVENT_VERB[e.type] || {
+                verb: e.type.replace("Event", "").toLowerCase(),
+                arrow: false,
+              };
+              return { verb: m.verb, arrow: m.arrow, repo: e.repo.name.split("/")[1], when: ago(e.created_at) };
+            });
+
+            const w = new Array(17 * 7).fill(0);
+            const today = new Date();
+            ev.forEach((e) => {
+              const days = Math.floor((today - new Date(e.created_at)) / 86400000);
+              const idx = 17 * 7 - 1 - days;
+              if (idx >= 0 && idx < w.length) w[idx] = Math.min(1, w[idx] + 0.4);
+            });
+            out.heat = w.map((v, i) =>
+              heatLevel(v > 0 ? Math.min(1, 0.55 + v) : seeded(i) * 0.45)
+            );
+          }
+        }
+
+        ghCache = out;
+        apply(out);
+      } catch (e) {
+        if (!mounted) return;
+        setStats({ repos: "12", followers: "cached · API rate-limited" });
+        setApiStatus("CACHED · API LIMIT");
+      }
+    })();
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      window.removeEventListener('scroll', handleScroll);
-      skillObserver.disconnect();
-      clearInterval(glitchInterval);
-      clearInterval(particleInterval);
+      mounted = false;
     };
-  }, [cursorX, cursorY, cursorOpacity, tiltX, tiltY]);
+  }, []);
 
-  const skills = [
-    { name: "C#", level: 95, color: "#68217A", icon: "⚡" },
-    { name: ".NET", level: 90, color: "#512BD4", icon: "🔧" },
-    { name: "Angular", level: 85, color: "#DD0031", icon: "🅰️" },
-    { name: "Azure", level: 80, color: "#0078D4", icon: "☁️" },
-    { name: "Flutter", level: 75, color: "#02569B", icon: "📱" },
-    { name: "SQL", level: 90, color: "#336791", icon: "🗄️" }
-  ];
-
-  const services = [
-    { title: "Full-Stack Development", description: "End-to-end web solutions", icon: "💻", color: "#ff4757" },
-    { title: "Mobile Development", description: "Cross-platform mobile apps", icon: "📱", color: "#00ff88" },
-    { title: "Cloud Solutions", description: "Azure cloud infrastructure", icon: "☁️", color: "#3742fa" },
-    { title: "Database Design", description: "Optimized data architecture", icon: "🗄️", color: "#ffa502" }
-  ];
-
-  const stats = [
-    { number: "5+", label: "Years Experience", icon: "⏰" },
-    { number: "50+", label: "Projects Completed", icon: "🚀" },
-    { number: "100%", label: "Client Satisfaction", icon: "⭐" }
-  ];
-
-  const achievements = [
-    { title: "Azure Certified", description: "AZ-900 Microsoft Azure", icon: "🏆" },
-    { title: "Performance Expert", description: "40% system improvement", icon: "⚡" },
-    { title: "Security Focused", description: "VA scan compliance", icon: "🔒" },
-    { title: "Team Leader", description: "Led development teams", icon: "👥" }
-  ];
-
-  const projectsData = [
-    {
-      id: 1,
-      title: "Mystery Agents",
-      description: "Board game on mobile",
-      imgPath: mysteryagents,
-      demoLink: "https://mystery-agents.web.app/",
-      githubLink: "https://github.com/oampudit/mystery-agents",
-      category: "mobile",
-      technologies: ["Flutter", "Dart", "Firebase"],
-      status: "completed",
-      year: 2024
-    },
-    {
-      id: 2,
-      title: "BTC Clock",
-      description: "Real-time Bitcoin monitoring",
-      imgPath: btcclock,
-      demoLink: "https://blockclock-online.firebaseapp.com/",
-      githubLink: "https://github.com/oampudit/btc-clock",
-      category: "web",
-      technologies: ["React", "JavaScript", "Bitcoin API"],
-      status: "completed",
-      year: 2023
-    },
-    {
-      id: 3,
-      title: "RegoLich",
-      description: "Bitcoin-integrated gaming platform",
-      imgPath: regolich,
-      demoLink: "https://regolich-project.firebaseapp.com/",
-      githubLink: "https://github.com/oampudit/regolich",
-      category: "web",
-      technologies: ["React", "Bitcoin Lightning", "Nostr"],
-      status: "in-progress",
-      year: 2024
-    }
-  ];
+  const work = projects.slice(0, 3);
+  const langMax = langs[0]?.pct || 1;
 
   return (
-    <div className="modern-portfolio" ref={containerRef}>
-      {/* Custom Cursor */}
-      <motion.div
-        className="custom-cursor"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          opacity: cursorOpacity,
-          scale: cursorScale,
-        }}
-      />
+    <div className="home-design">
+      {/* ---------------- HERO ---------------- */}
+      <header className="hd-hero">
+        <div className="hd-wrap">
+          <div className="hd-hero-grid">
+            <div>
+              <div className="hd-hero-eyebrow">
+                <span className="hd-pulse" /> Full-stack engineer · Bangkok
+              </div>
+              <h1 className="hd-hero-title">
+                <span className="hd-l"><span>Pudit</span></span>
+                <span className="hd-l"><span><em>Chokmeesuk</em></span></span>
+              </h1>
+              <p className="hd-hero-sub">
+                Building production systems on C#, .NET, Angular and Azure — with
+                Flutter for mobile. I care about shipped software and the unglamorous
+                parts done well.
+              </p>
+              <div className="hd-role-line">
+                &gt; <span>{role}</span>
+                <span className="hd-blink">_</span>
+              </div>
+              <div className="hd-hero-cta">
+                <button
+                  type="button"
+                  className="hd-btn hd-btn-primary"
+                  onClick={() => onNavigate("projects")}
+                  {...magneticHandlers()}
+                >
+                  View work <span>→</span>
+                </button>
+                <a
+                  className="hd-btn hd-btn-ghost"
+                  href={resumePdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  {...magneticHandlers()}
+                >
+                  Résumé
+                </a>
+              </div>
+            </div>
 
-      {/* Mouse Trail Effect */}
-      <div className="mouse-trail">
-        {mouseTrail.map((point, index) => (
-          <motion.div
-            key={point.id}
-            className="trail-dot"
-            initial={{ opacity: 1, scale: 1 }}
-            animate={{ opacity: 0, scale: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            style={{
-              left: point.x,
-              top: point.y,
-            }}
-          />
-        ))}
-      </div>
-      
-      {/* Floating Elements */}
-      <div className="floating-elements">
-        {[...Array(particleCount)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="floating-element"
-            initial={{ 
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              opacity: 0
-            }}
-            animate={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              opacity: [0, 0.4, 0],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
-      </div>
+            <div
+              className="hd-plate"
+              ref={plateRef}
+              onMouseMove={onPlateMove}
+              onMouseLeave={onPlateLeave}
+            >
+              <div className="hd-plate-frame" ref={frameRef}>
+                <img src={profileImg} alt="Pudit Chokmeesuk" />
+                <span className="hd-plate-no">PORTRAIT · 001</span>
+              </div>
+              <div className="hd-plate-tag">
+                Currently at <b>PTT Digital Solutions</b>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="hd-scroll-hint">
+          <span className="hd-ln" /> SCROLL
+        </div>
+      </header>
 
-      {/* Navigation Dots */}
-      <motion.div className="navigation-dots">
-        {['hero', 'skills', 'about', 'projects'].map((section, index) => (
-          <motion.button
-            key={section}
-            className={`nav-dot ${activeSection === index ? 'active' : ''}`}
-            onClick={() => {
-              const refs = [heroRef, skillsRef, aboutRef, projectsRef];
-              refs[index]?.current?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            animate={{
-              scale: activeSection === index ? 1.2 : 1,
-              backgroundColor: activeSection === index ? "#ff4757" : "rgba(255, 255, 255, 0.2)"
-            }}
-          />
-        ))}
-      </motion.div>
+      {/* ---------------- LIVE SIGNALS PANEL ---------------- */}
+      <section className="hd-live hd-wrap">
+        <div className="hd-live-head">
+          <div>
+            <span className="hd-k">Signals</span>
+            <div className="hd-ttl">Live, not claimed</div>
+          </div>
+          <div className="hd-src">
+            <span className="hd-led" />
+            <span>{apiStatus}</span>
+          </div>
+        </div>
+        <div className="hd-panels">
+          <div className="hd-panel hd-col-3">
+            <div className="hd-ph"><span className="hd-t">Local time</span><span className="hd-d">ICT · UTC+7</span></div>
+            <div className="hd-clock-time">
+              {clock.h}:{clock.m}<span className="hd-sec">:{clock.s}</span>
+            </div>
+            <div className="hd-clock-meta">{clock.date}</div>
+          </div>
 
-      <Particle />
-      <Container>
-        {/* Hero Section */}
-        <section className="hero-section" ref={heroRef}>
-          <motion.div
-            style={{ y: heroY, scale: heroScale }}
-            className="hero-background"
-          />
-          <Row className="align-items-center">
-            <Col lg={6} className="hero-content">
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                <motion.div 
-                  className="hero-greeting"
-                  animate={{ 
-                    textShadow: [
-                      "0 0 20px rgba(255, 71, 87, 0.5)",
-                      "0 0 40px rgba(255, 71, 87, 0.8)",
-                      "0 0 20px rgba(255, 71, 87, 0.5)"
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  Hello, I'm
-                </motion.div>
-                
-                <motion.h1 
-                  className={`hero-title ${isGlitchActive ? 'glitch' : ''}`}
-                  animate={{ 
-                    textShadow: [
-                      "0 0 20px rgba(255, 71, 87, 0.5)",
-                      "0 0 40px rgba(255, 71, 87, 0.8)",
-                      "0 0 20px rgba(255, 71, 87, 0.5)"
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  Pudit Chokmeesuk
-                </motion.h1>
-                
-                <motion.div 
-                  className="hero-subtitle"
-                  animate={{ 
-                    background: [
-                      "linear-gradient(135deg, #ff4757, #ff6b7a)",
-                      "linear-gradient(135deg, #00ff88, #00d4aa)",
-                      "linear-gradient(135deg, #3742fa, #5352ed)",
-                      "linear-gradient(135deg, #ff4757, #ff6b7a)"
-                    ]
-                  }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                >
-                  <span className="typing-text">{currentText}</span>
-                  <span className="typing-cursor">|</span>
-                </motion.div>
-                
-                <motion.div 
-                  className="hero-description"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.5 }}
-                >
-                  Full-Stack Developer with expertise in C#, Angular, .NET, and SQL, 
-                  specializing in building dynamic, scalable web and mobile applications.
-                </motion.div>
-                
-                <motion.div 
-                  className="hero-buttons"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.7 }}
-                >
-                  <motion.button
-                    className="hero-btn primary"
-                    onClick={() => onNavigate('about')}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    onMouseEnter={() => cursorScale.set(1.2)}
-                    onMouseLeave={() => cursorScale.set(1)}
-                  >
-                    View My Work
-                  </motion.button>
-                </motion.div>
-              </motion.div>
-            </Col>
-            
-            <Col lg={6} className="hero-image">
-              <motion.div
-                className="image-container"
-                style={{
-                  rotateX: tiltY,
-                  rotateY: tiltX,
-                }}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.3 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  transition: { duration: 0.3 }
-                }}
-              >
-                <motion.div 
-                  className="image-frame"
-                  animate={{ 
-                    boxShadow: [
-                      "0 25px 50px rgba(0, 0, 0, 0.4)",
-                      "0 25px 50px rgba(255, 71, 87, 0.3)",
-                      "0 25px 50px rgba(0, 255, 136, 0.3)",
-                      "0 25px 50px rgba(0, 0, 0, 0.4)"
-                    ]
-                  }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                >
-                  <img src={profileImage} alt="Pudit Chokmeesuk" />
-                  <motion.div
-                    className="image-overlay"
-                    whileHover={{ opacity: 1 }}
-                    initial={{ opacity: 0 }}
-                  >
-                    <div className="overlay-content">
-                      <span>💻</span>
-                      <p>Full-Stack Developer</p>
-                    </div>
-                  </motion.div>
-                  
-                  {/* Floating Arrows */}
-                  <motion.div
-                    className="floating-arrow top"
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    ↑
-                  </motion.div>
-                  <motion.div
-                    className="floating-arrow bottom"
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                  >
-                    ↓
-                  </motion.div>
-                </motion.div>
-              </motion.div>
-            </Col>
-          </Row>
-        </section>
+          <div className="hd-panel hd-col-3">
+            <div className="hd-ph"><span className="hd-t">Public repos</span><span className="hd-d">github</span></div>
+            <div className="hd-bignum hd-amber">{stats.repos}</div>
+            <div className="hd-bigsub">{stats.followers}</div>
+          </div>
 
-        {/* Skills Section */}
-        <section className="skills-section" ref={skillsRef}>
-          <motion.div
-            style={{ y: skillsY }}
-            className="skills-background"
-          />
-          <motion.div
-            className="skills-header"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="skills-title">Technical Expertise</h2>
-            <div className="skills-line"></div>
-            <p className="skills-subtitle">My core technical skills and proficiency levels</p>
-          </motion.div>
-          
-          <motion.div
-            className="skills-grid"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            {skills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                className="skill-item"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                whileHover={{ 
-                  scale: 1.02,
-                  y: -5,
-                  boxShadow: "0 15px 30px rgba(0, 0, 0, 0.3)"
-                }}
-                onMouseEnter={() => cursorScale.set(1.2)}
-                onMouseLeave={() => cursorScale.set(1)}
-              >
-                <div className="skill-header">
-                  <div className="skill-info">
-                    <span className="skill-icon">{skill.icon}</span>
-                    <span className="skill-name">{skill.name}</span>
+          <div className="hd-panel hd-col-6">
+            <div className="hd-ph"><span className="hd-t">Contribution activity</span><span className="hd-d">{heatLabel}</span></div>
+            <div className="hd-heat">
+              {heat.map((l, i) => (
+                <i key={i} data-l={l || undefined} />
+              ))}
+            </div>
+            <div className="hd-heat-legend">
+              Less
+              <i style={{ background: "var(--hd-surface-2)" }} />
+              <i style={{ background: "rgba(59,142,245,.25)" }} />
+              <i style={{ background: "rgba(59,142,245,.5)" }} />
+              <i style={{ background: "rgba(59,142,245,.78)" }} />
+              <i style={{ background: "var(--hd-amber)" }} />
+              More
+            </div>
+          </div>
+
+          <div className="hd-panel hd-col-5">
+            <div className="hd-ph"><span className="hd-t">Recent activity</span><span className="hd-d">github events</span></div>
+            <div className="hd-feed">
+              {feed.map((it, i) => (
+                <div className="hd-feed-item" key={i}>
+                  <span className="hd-dot" />
+                  <span className="hd-txt">
+                    <b>{it.verb}</b>
+                    {it.arrow ? " → " : " "}
+                    {it.repo}
+                  </span>
+                  <span className="hd-when">{it.when}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hd-panel hd-col-4">
+            <div className="hd-ph"><span className="hd-t">Top languages</span><span className="hd-d">by repo</span></div>
+            <div className="hd-langs">
+              {langs.slice(0, 5).map((g) => (
+                <div key={g.name}>
+                  <div className="hd-lang-top">
+                    <span>{g.name}</span>
+                    <span className="hd-pc">{g.pct}%</span>
+                  </div>
+                  <div className="hd-lang-track">
+                    <div
+                      className="hd-lang-fill"
+                      style={{ width: `${(g.pct / langMax) * 100}%` }}
+                    />
                   </div>
                 </div>
-                <div className="skill-progress">
-                  <motion.div
-                    className="skill-progress-bar"
-                    initial={{ width: 0 }}
-                    animate={{ 
-                      width: isSkillVisible ? `${skillProgress[skill.name] || skill.level}%` : 0 
-                    }}
-                    transition={{ duration: 1, delay: 0.8 + index * 0.1 }}
-                    style={{ 
-                      background: `linear-gradient(90deg, ${skill.color}, ${skill.color}dd)`,
-                      boxShadow: `0 0 10px ${skill.color}40`
-                    }}
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
+              ))}
+            </div>
+          </div>
 
-        {/* Services Section */}
-        <section className="services-section">
-          <motion.div
-            className="services-header"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            <h2 className="services-title">What I Do</h2>
-            <div className="services-line"></div>
-            <p className="services-subtitle">Comprehensive development services</p>
-          </motion.div>
-          
-          <motion.div
-            className="services-grid"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-          >
-            {services.map((service, index) => (
-              <motion.div
-                key={service.title}
-                className="service-item"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.9 + index * 0.1 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  y: -10,
-                  boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
-                }}
-                onMouseEnter={() => cursorScale.set(1.2)}
-                onMouseLeave={() => cursorScale.set(1)}
-              >
-                <motion.div 
-                  className="service-icon"
-                  animate={{ 
-                    color: [service.color, "#ffffff", service.color],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  {service.icon}
-                </motion.div>
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
+          <div className="hd-panel hd-col-3">
+            <div className="hd-ph"><span className="hd-t">Now</span><span className="hd-d">workspace</span></div>
+            <div className="hd-langs hd-now">
+              <div>VS Code · <b>Rider</b></div>
+              <div>Shipping <b>Azure</b></div>
+              <div>Learning <b>Nostr</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        {/* Stats Section */}
-        <section className="stats-section">
-          <motion.div
-            className="stats-grid"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-          >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                className="stat-item"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                onMouseEnter={() => cursorScale.set(1.2)}
-                onMouseLeave={() => cursorScale.set(1)}
-              >
-                <motion.div 
-                  className="stat-icon"
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                >
-                  {stat.icon}
-                </motion.div>
-                <motion.div 
-                  className="stat-number"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.5, delay: 1.5 + index * 0.1, type: "spring" }}
-                >
-                  {stat.number}
-                </motion.div>
-                <div className="stat-label">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
+      {/* ---------------- MARQUEE ---------------- */}
+      <div className="hd-strip">
+        <div className="hd-marquee">
+          {[0, 1].map((dup) => (
+            <span key={dup}>
+              {MARQUEE.map((m) => (
+                <span key={m}>{m}</span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
 
-        {/* Achievements Section */}
-        <section className="achievements-section">
-          <motion.div
-            className="achievements-header"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.3 }}
-          >
-            <h2 className="achievements-title">Key Achievements</h2>
-            <div className="achievements-line"></div>
-          </motion.div>
-          
-          <motion.div
-            className="achievements-grid"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.5 }}
-          >
-            {achievements.map((achievement, index) => (
-              <motion.div
-                key={achievement.title}
-                className="achievement-item"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 1.7 + index * 0.1 }}
-                whileHover={{ 
-                  scale: 1.02,
-                  y: -5,
-                  boxShadow: "0 15px 30px rgba(0, 0, 0, 0.3)"
-                }}
-                onMouseEnter={() => cursorScale.set(1.2)}
-                onMouseLeave={() => cursorScale.set(1)}
-              >
-                <div className="achievement-icon">{achievement.icon}</div>
-                <h3>{achievement.title}</h3>
-                <p>{achievement.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
-      </Container>
+      {/* ---------------- WORK ---------------- */}
+      <section className="hd-section hd-wrap" id="work">
+        <div className="hd-sec-head">
+          <div>
+            <span className="hd-k">Selected work</span>
+            <h2>Things I've shipped</h2>
+          </div>
+          <span className="hd-count">
+            {String(work.length).padStart(2, "0")} / {String(work.length).padStart(2, "0")}
+          </span>
+        </div>
+        <div className="hd-work-list">
+          {work.map((p, i) => (
+            <div
+              className="hd-work"
+              key={p.id}
+              onMouseEnter={() => showPreview(p.imgPath)}
+              onMouseLeave={hidePreview}
+              onMouseMove={movePreview}
+              onClick={() => onNavigate("projects")}
+            >
+              <span className="hd-wno">{String(i + 1).padStart(2, "0")}</span>
+              <div className="hd-wmain">
+                <span className="hd-wtitle">{p.title}</span>
+                <span className="hd-wtag">{p.tagline}</span>
+              </div>
+              <div className="hd-wtech">
+                {p.technologies.slice(0, 3).map((t) => (
+                  <span className="hd-chip" key={t}>{t}</span>
+                ))}
+              </div>
+              <span className="hd-warrow">↗</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ---------------- FOOTER CTA ---------------- */}
+      <footer className="hd-foot hd-wrap">
+        <div className="hd-foot-big">
+          Let's build<br />something <em>that ships.</em>
+        </div>
+        <div className="hd-foot-row">
+          <div className="hd-foot-links">
+            <a href={GH_LINK} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a href={LINKEDIN_LINK} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            <a href={EMAIL_LINK}>Email ↗</a>
+          </div>
+          <div className="hd-foot-copy">© {new Date().getFullYear()} PUDIT CHOKMEESUK · BANGKOK, TH</div>
+        </div>
+      </footer>
+
+      {/* floating cursor-follow preview */}
+      <div className="hd-preview" ref={previewRef}>
+        <img ref={previewImgRef} alt="" />
+      </div>
     </div>
   );
 }
-
-export default Home;

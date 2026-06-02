@@ -1,146 +1,129 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import './ExperienceTimeline.css';
+import React from "react";
+import { Container } from "react-bootstrap";
+import { motion } from "framer-motion";
+import useTilt from "../../hooks/useTilt";
+import useSpotlight from "../../hooks/useSpotlight";
+import "./ExperienceTimeline.css";
 
-const ExperienceTimeline = () => {
+const EXPERIENCES = [
+  {
+    id: 1,
+    company: "PTT Digital Solutions",
+    position: "Mid-Level Software Developer",
+    period: "Nov 2023 — Present",
+    location: "Bangkok, Thailand",
+    achievements: [
+      "Full-stack delivery of web and application solutions.",
+      "Designed and deployed modules with clean business integration.",
+      "Hardened systems via Azure Functions, Web Apps, Key Vault.",
+      "Lifted operational documentation and runbook quality.",
+    ],
+    technologies: ["C#", ".NET Core", "Azure", "Angular", "SQL Server"],
+  },
+  {
+    id: 2,
+    company: "Bangkok Life Assurance",
+    position: "Software Developer",
+    period: "Apr 2021 — Nov 2023",
+    location: "Bangkok, Thailand",
+    achievements: [
+      "Rewrote the group-insurance core; performance and security up across the board.",
+      "Designed the customer mobile app: claims, notifications, history.",
+      "Owned full release cycles in C# .NET Core, Oracle, Dart, Flutter.",
+    ],
+    technologies: ["C#", ".NET Core", "Oracle", "Dart", "Flutter"],
+  },
+  {
+    id: 3,
+    company: "BizCon Solutions",
+    position: "System Engineer",
+    period: "Aug 2019 — Jan 2021",
+    location: "Bangkok, Thailand",
+    achievements: [
+      "Operated infrastructure for SET, Betagro, FWD.",
+      "Migrations and installations: Windows Server, Active Directory, Exchange.",
+      "Reduced incident frequency through proactive monitoring.",
+    ],
+    technologies: ["Windows Server", "Active Directory", "Exchange", "System Admin"],
+  },
+];
 
-  const experiences = [
-    {
-      id: 1,
-      company: 'PTT Digital Solutions',
-      position: 'Mid-Level Software Developer',
-      period: 'November 2023 – Present',
-      location: 'Bangkok, Thailand',
-      achievements: [
-        'Full-stack development of web and application solutions',
-        'Designed and deployed software modules with seamless business integration',
-        'Improved system security and scalability using Azure Functions, Azure Web App, Key Vault',
-        'Enhanced system documentation for operational efficiency'
-      ],
-      technologies: ['C#', '.NET Core', 'Azure', 'Angular', 'SQL Server'],
-      color: '#0078D4'
-    },
-    {
-      id: 2,
-      company: 'Bangkok Life Assurance',
-      position: 'Software Developer',
-      period: 'April 2021 – November 2023',
-      location: 'Bangkok, Thailand',
-      achievements: [
-        'Rewrote main group insurance system improving performance and security',
-        'Redesigned mobile app with online claims, notifications, and history logs',
-        'Led full development cycles using C# .NET Core, Oracle, Dart, and Flutter',
-        'Enhanced customer satisfaction and usability'
-      ],
-      technologies: ['C#', '.NET Core', 'Oracle', 'Dart', 'Flutter'],
-      color: '#DD0031'
-    },
-    {
-      id: 3,
-      company: 'BizCon Solutions',
-      position: 'System Engineer',
-      period: 'August 2019 – January 2021',
-      location: 'Bangkok, Thailand',
-      achievements: [
-        'Managed and optimized systems infrastructure for clients (SET, Betagro, FWD)',
-        'Completed server installations and migrations including Windows Server Active Directory',
-        'Reduced system downtime through proactive monitoring and maintenance',
-        'Improved infrastructure reliability'
-      ],
-      technologies: ['Windows Server', 'Active Directory', 'Exchange', 'System Administration'],
-      color: '#00B4AB'
-    }
-  ];
-
-
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  };
-
+function TiltItem({ children }) {
+  const tilt = useTilt({ max: 4, scale: 1.005 });
   return (
-    <div className="experience-timeline">
-
-
-      <motion.div
-        className="timeline-header"
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h2>Professional Experience</h2>
-        <p>Click on any experience to learn more about my journey</p>
-      </motion.div>
-
-      <motion.div
-        className="timeline-container"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {experiences.map((experience, index) => (
-          <motion.div
-            key={experience.id}
-            className="timeline-item"
-            variants={itemVariants}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div className="timeline-marker" style={{ backgroundColor: experience.color }}>
-              <div className="marker-dot"></div>
-            </div>
-            
-            <div className="timeline-content">
-              <div className="timeline-header">
-                <h3>{experience.position}</h3>
-                <h4>{experience.company}</h4>
-                <p className="timeline-period">{experience.period}</p>
-                <p className="timeline-location">{experience.location}</p>
-              </div>
-              
-              <div className="timeline-achievements">
-                <h5>Key Achievements:</h5>
-                <ul>
-                  {experience.achievements.map((achievement, index) => (
-                    <li key={index}>{achievement}</li>
-                  ))}
-                </ul>
-              </div>
-              
-              <div className="timeline-technologies">
-                <h5>Technologies Used:</h5>
-                <div className="tech-grid">
-                  {experience.technologies.map((tech, techIndex) => (
-                    <span key={techIndex} className="tech-tag" style={{ backgroundColor: experience.color }}>
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
+    <div
+      ref={tilt.ref}
+      onMouseMove={tilt.onMouseMove}
+      onMouseLeave={tilt.onMouseLeave}
+      className="tl-item tilt-card"
+    >
+      {children}
     </div>
   );
-};
+}
 
-export default ExperienceTimeline; 
+export default function ExperienceTimeline() {
+  const spot = useSpotlight();
+  return (
+    <div
+      className="timeline-pro spotlight"
+      ref={spot.ref}
+      onMouseMove={spot.onMouseMove}
+      onMouseLeave={spot.onMouseLeave}
+    >
+      <Container>
+        <motion.header
+          className="tl-head"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="section-eyebrow">Career</span>
+          <h1 className="tl-title">Professional experience</h1>
+          <p className="tl-sub">
+            Roles, scope, and the parts I'm proud of.
+          </p>
+        </motion.header>
+
+        <div className="tl-rail">
+          {EXPERIENCES.map((e, i) => (
+            <motion.div
+              key={e.id}
+              className="tl-row"
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+            >
+              <div className="tl-marker">
+                <div className="tl-dot" />
+              </div>
+              <TiltItem>
+                <div className="tl-item-head">
+                  <div>
+                    <h3 className="tl-position">{e.position}</h3>
+                    <div className="tl-company">
+                      {e.company} <span className="tl-sep">·</span>{" "}
+                      <span className="tl-loc">{e.location}</span>
+                    </div>
+                  </div>
+                  <span className="tl-period">{e.period}</span>
+                </div>
+                <ul className="tl-list">
+                  {e.achievements.map((a, j) => (
+                    <li key={j}>{a}</li>
+                  ))}
+                </ul>
+                <div className="tl-tags">
+                  {e.technologies.map((t) => (
+                    <span key={t} className="tl-tag">{t}</span>
+                  ))}
+                </div>
+              </TiltItem>
+            </motion.div>
+          ))}
+        </div>
+      </Container>
+    </div>
+  );
+}

@@ -1,59 +1,67 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { motion } from "framer-motion";
 import "./Navbar.css";
 
+const NAV_ITEMS = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Work" },
+  { id: "github", label: "GitHub" },
+];
+
 const NavbarComponent = ({ onNavigate, currentSection }) => {
-  const [expand, updateExpanded] = useState(false);
-  const [navColour, updateNavbar] = useState(false);
-
-  const navItems = [
-    { id: 'home', label: 'Home', icon: '🏠' },
-    { id: 'about', label: 'About', icon: '👨‍💻' },
-    { id: 'skills', label: 'Skills', icon: '🎯' },
-    { id: 'experience', label: 'Experience', icon: '📈' },
-    { id: 'projects', label: 'Projects', icon: '🚀' },
-  ];
-
-  function scrollHandler() {
-    if (window.scrollY >= 20) {
-      updateNavbar(true);
-    } else {
-      updateNavbar(false);
-    }
-  }
+  const [expand, setExpand] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hoverId, setHoverId] = useState(null);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 });
+  const [resizeTick, setResizeTick] = useState(0);
+  const itemRefs = useRef({});
 
   useEffect(() => {
-    window.addEventListener("scroll", scrollHandler);
-    return () => window.removeEventListener("scroll", scrollHandler);
+    const onScroll = () => setScrolled(window.scrollY >= 20);
+    const onResize = () => setResizeTick((t) => t + 1);
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
+
+  useLayoutEffect(() => {
+    const target = itemRefs.current[hoverId ?? currentSection];
+    if (!target) return setIndicator((s) => ({ ...s, opacity: 0 }));
+    const rect = target.getBoundingClientRect();
+    const parentRect = target.parentElement.parentElement.getBoundingClientRect();
+    setIndicator({
+      left: rect.left - parentRect.left,
+      width: rect.width,
+      opacity: 1,
+    });
+  }, [hoverId, currentSection, expand, resizeTick]);
 
   return (
     <Navbar
       expanded={expand}
       fixed="top"
       expand="md"
-      className={navColour ? "sticky" : "navbar"}
+      className={scrolled ? "nav-root nav-scrolled" : "nav-root"}
     >
       <Container>
-        <motion.div
-          className="navbar-brand-container"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <Navbar.Brand
+          className="nav-brand"
+          onClick={() => onNavigate("home")}
+          role="button"
         >
-          <Navbar.Brand 
-            className="navbar-brand"
-            onClick={() => onNavigate('home')}
-          >
-            <strong>PUDIT</strong>
-          </Navbar.Brand>
-        </motion.div>
+          <span className="nav-brand-mark" aria-hidden>P</span>
+          <span className="nav-brand-text">Pudit<span className="nav-brand-dot">.</span></span>
+        </Navbar.Brand>
 
         <Navbar.Toggle
           aria-controls="responsive-navbar-nav"
-          onClick={() => {
-            updateExpanded(expand ? false : "expanded");
-          }}
+          onClick={() => setExpand((v) => (v ? false : "expanded"))}
         >
           <span></span>
           <span></span>
@@ -61,19 +69,32 @@ const NavbarComponent = ({ onNavigate, currentSection }) => {
         </Navbar.Toggle>
 
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ms-auto" defaultActiveKey="#home">
-            {navItems.map((item) => (
+          <Nav
+            className="ms-auto nav-items"
+            onMouseLeave={() => setHoverId(null)}
+          >
+            <span
+              className="nav-indicator"
+              style={{
+                transform: `translateX(${indicator.left}px)`,
+                width: `${indicator.width}px`,
+                opacity: indicator.opacity,
+              }}
+            />
+            {NAV_ITEMS.map((item) => (
               <Nav.Item key={item.id}>
-                <Nav.Link
-                  className={`nav-link ${currentSection === item.id ? 'active-nav-link' : ''}`}
+                <button
+                  type="button"
+                  ref={(el) => (itemRefs.current[item.id] = el)}
+                  className={`nav-btn ${currentSection === item.id ? "is-active" : ""}`}
                   onClick={() => {
                     onNavigate(item.id);
-                    updateExpanded(false);
+                    setExpand(false);
                   }}
+                  onMouseEnter={() => setHoverId(item.id)}
                 >
-                  <span className="nav-icon">{item.icon}</span>
                   {item.label}
-                </Nav.Link>
+                </button>
               </Nav.Item>
             ))}
           </Nav>

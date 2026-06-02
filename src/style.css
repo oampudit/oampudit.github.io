@@ -301,7 +301,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Global Button Styles */
 .btn-primary {
-  background: #ff4757;
+  background: #818cf8;
   color: #ffffff;
   border: none;
   padding: 15px 30px;
@@ -315,9 +315,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:hover {
-  background: #ff6b7a;
+  background: #a5b4fc;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+  box-shadow: 0 10px 20px rgba(129, 140, 248, 0.3);
   color: #ffffff;
   text-decoration: none;
 }
@@ -409,12 +409,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .Typewriter__wrapper {
   font-size: 1.5rem !important;
-  color: #00ff88 !important;
+  color: #86efac !important;
   font-weight: 400 !important;
 }
 .Typewriter__cursor {
   font-size: 1.5rem !important;
-  color: #00ff88 !important;
+  color: #86efac !important;
 }
 
 @media (max-width: 767px) {

@@ -17,7 +17,7 @@
   left: -10px;
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle, #ff4757 0%, transparent 70%);
+  background: radial-gradient(circle, #818cf8 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
@@ -32,7 +32,7 @@
   left: 50%;
   width: 40px;
   height: 40px;
-  background: rgba(255, 71, 87, 0.2);
+  background: rgba(129, 140, 248, 0.2);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   animation: cursorPulse 2s infinite;
@@ -58,7 +58,7 @@
   position: absolute;
   width: 4px;
   height: 4px;
-  background: rgba(255, 71, 87, 0.3);
+  background: rgba(129, 140, 248, 0.3);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -93,7 +93,7 @@
   left: 50%;
   width: 20px;
   height: 20px;
-  background: rgba(255, 71, 87, 0.1);
+  background: rgba(129, 140, 248, 0.1);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: all 0.3s ease;
@@ -103,7 +103,7 @@
 .nav-dot.active::before {
   width: 30px;
   height: 30px;
-  background: rgba(255, 71, 87, 0.2);
+  background: rgba(129, 140, 248, 0.2);
 }
 
 /* Parallax Backgrounds */
@@ -116,8 +116,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 20% 80%, rgba(255, 71, 87, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+  background: radial-gradient(circle at 20% 80%, rgba(129, 140, 248, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(134, 239, 172, 0.1) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
 }
@@ -143,7 +143,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   color: #ffffff;
-  background: linear-gradient(135deg, #ff4757, #ff6b7a);
+  background: linear-gradient(135deg, #818cf8, #a5b4fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -153,7 +153,7 @@
 .about-hero-line {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #ff4757, #ff6b7a);
+  background: linear-gradient(90deg, #818cf8, #a5b4fc);
   margin-bottom: 40px;
   position: relative;
   overflow: hidden;
@@ -222,7 +222,7 @@
 }
 
 .highlight {
-  color: #00ff88;
+  color: #86efac;
   font-weight: 600;
 }
 
@@ -258,11 +258,11 @@
   right: -15px;
   bottom: -15px;
   background: linear-gradient(135deg, 
-    rgba(255, 71, 87, 0.8) 0%, 
+    rgba(129, 140, 248, 0.8) 0%, 
     rgba(255, 107, 122, 0.6) 25%, 
     rgba(255, 142, 158, 0.4) 50%, 
     rgba(52, 106, 255, 0.6) 75%, 
-    rgba(0, 255, 136, 0.8) 100%);
+    rgba(134, 239, 172, 0.8) 100%);
   border-radius: 30px;
   z-index: -1;
   animation: glow 4s ease-in-out infinite alternate;
@@ -289,7 +289,7 @@
   box-shadow: 
     0 35px 70px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.2),
-    0 0 30px rgba(255, 71, 87, 0.3);
+    0 0 30px rgba(129, 140, 248, 0.3);
 }
 
 .about-image-frame img {
@@ -352,7 +352,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   color: #ffffff;
-  background: linear-gradient(135deg, #ff4757, #ff6b7a);
+  background: linear-gradient(135deg, #818cf8, #a5b4fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -361,7 +361,7 @@
 .experience-line {
   width: 60px;
   height: 3px;
-  background: #ff4757;
+  background: #818cf8;
   margin: 0 auto 20px auto;
 }
 
@@ -425,18 +425,18 @@
 
 .experience-position {
   font-size: 1rem;
-  color: #ff4757;
+  color: #818cf8;
   font-weight: 500;
 }
 
 .experience-period {
   font-size: 0.9rem;
-  color: #00ff88;
+  color: #86efac;
   font-weight: 600;
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(134, 239, 172, 0.1);
   padding: 5px 12px;
   border-radius: 15px;
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(134, 239, 172, 0.2);
 }
 
 .experience-achievements {
@@ -446,7 +446,7 @@
 
 .experience-achievements h4 {
   font-size: 1.1rem;
-  color: #ff4757;
+  color: #818cf8;
   margin-bottom: 10px;
   font-weight: 600;
 }
@@ -470,13 +470,13 @@
   content: '▸';
   position: absolute;
   left: 0;
-  color: #00ff88;
+  color: #86efac;
   font-weight: bold;
 }
 
 .experience-technologies h4 {
   font-size: 1.1rem;
-  color: #ff4757;
+  color: #818cf8;
   margin-bottom: 10px;
   font-weight: 600;
   text-align: left;
@@ -489,19 +489,19 @@
 }
 
 .tech-tag {
-  background: rgba(255, 71, 87, 0.1);
-  color: #ff4757;
+  background: rgba(129, 140, 248, 0.1);
+  color: #818cf8;
   padding: 4px 12px;
   border-radius: 15px;
   font-size: 0.8rem;
   font-weight: 500;
-  border: 1px solid rgba(255, 71, 87, 0.2);
+  border: 1px solid rgba(129, 140, 248, 0.2);
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .tech-tag:hover {
-  background: rgba(255, 71, 87, 0.2);
+  background: rgba(129, 140, 248, 0.2);
   transform: scale(1.05);
 }
 
@@ -522,7 +522,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   color: #ffffff;
-  background: linear-gradient(135deg, #ff4757, #ff6b7a);
+  background: linear-gradient(135deg, #818cf8, #a5b4fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -531,7 +531,7 @@
 .education-line {
   width: 60px;
   height: 3px;
-  background: #ff4757;
+  background: #818cf8;
   margin: 0 auto;
 }
 
@@ -591,7 +591,7 @@
 
 .education-school {
   font-size: 1rem;
-  color: #ff4757;
+  color: #818cf8;
   margin-bottom: 8px;
   font-weight: 500;
 }
@@ -605,11 +605,11 @@
 .education-gpa {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #00ff88;
-  background: rgba(0, 255, 136, 0.1);
+  color: #86efac;
+  background: rgba(134, 239, 172, 0.1);
   padding: 8px 16px;
   border-radius: 20px;
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(134, 239, 172, 0.2);
   display: inline-block;
 }
 
@@ -629,7 +629,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   color: #ffffff;
-  background: linear-gradient(135deg, #ff4757, #ff6b7a);
+  background: linear-gradient(135deg, #818cf8, #a5b4fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -638,7 +638,7 @@
 .skills-line {
   width: 60px;
   height: 3px;
-  background: #ff4757;
+  background: #818cf8;
   margin: 0 auto;
 }
 
@@ -657,7 +657,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   color: #ffffff;
-  background: linear-gradient(135deg, #ff4757, #ff6b7a);
+  background: linear-gradient(135deg, #818cf8, #a5b4fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -666,7 +666,7 @@
 .tools-line {
   width: 60px;
   height: 3px;
-  background: #ff4757;
+  background: #818cf8;
   margin: 0 auto;
 }
 
@@ -828,3 +828,177 @@
     display: none;
   }
 } 
+/* ================================================================
+   About — professional refresh
+   ================================================================ */
+
+.about-pro {
+  color: var(--text);
+  padding: 140px 0 100px;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.about-hero {
+  padding: 24px 12px 80px;
+  border-radius: var(--radius-lg);
+}
+
+.about-title {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 14px 0 22px;
+  color: var(--text);
+  line-height: 1.05;
+}
+
+.about-image-tilt { border-radius: var(--radius-lg); }
+
+.about-image-frame {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-elev-1);
+}
+
+.about-image-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: grayscale(0.2);
+}
+
+.about-section {
+  padding: 80px 12px;
+  border-radius: var(--radius-lg);
+}
+
+.about-section-head { margin-bottom: 36px; }
+
+.about-section-title {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin: 8px 0 0;
+}
+
+.exp-list { display: flex; flex-direction: column; gap: 14px; }
+
+.exp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.exp-card:hover {
+  border-color: var(--accent);
+  background: var(--surface-hover);
+}
+
+.exp-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.exp-position {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+
+.exp-company {
+  color: var(--accent-strong);
+  font-size: 0.92rem;
+  margin-top: 2px;
+}
+
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.exp-achievements {
+  list-style: none;
+  padding-left: 18px;
+  margin: 0 0 16px;
+}
+
+.exp-achievements li {
+  position: relative;
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin-bottom: 6px;
+}
+
+.exp-achievements li::before {
+  content: "—";
+  position: absolute;
+  left: -18px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+.exp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.exp-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  padding: 2px 9px;
+  border-radius: 4px;
+}
+
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.edu-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  transition: border-color 0.25s var(--ease);
+}
+
+.edu-card:hover { border-color: var(--accent); }
+
+.edu-degree {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.015em;
+  margin-bottom: 4px;
+}
+
+.edu-school {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin-bottom: 12px;
+}
+
+.edu-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.edu-gpa { color: var(--accent-strong); }

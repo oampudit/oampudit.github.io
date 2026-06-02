@@ -1,73 +1,47 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import {
-  AiFillGithub,
-  AiFillGitlab,
-  AiFillFacebook,
-  AiFillInstagram,
-} from "react-icons/ai";
+import { AiFillGithub, AiFillGitlab } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
+import { HiOutlineMail } from "react-icons/hi";
+
+const LINKS = [
+  { href: "https://github.com/oampudit", icon: AiFillGithub, label: "GitHub" },
+  { href: "https://gitlab.com/oampudit", icon: AiFillGitlab, label: "GitLab" },
+  { href: "https://www.linkedin.com/in/puditc", icon: FaLinkedinIn, label: "LinkedIn" },
+  { href: "mailto:pudit.chok@gmail.com", icon: HiOutlineMail, label: "Email" },
+];
 
 function Footer() {
-  let date = new Date();
-  let year = date.getFullYear();
+  const year = new Date().getFullYear();
   return (
-    <Container fluid className="footer">
-      <Row>
-        <Col md="4" className="footer-copywright">
-          <h3>Developed by Pudit Chokmeesuk</h3>
-        </Col>
-        <Col md="4" className="footer-copywright">
-          <h3>Copyright © {year} Pudit.C</h3>
-        </Col>
-        <Col md="4" className="footer-body">
-          <ul className="footer-icons">
-            <li className="social-icons">
-              <a
-                href="https://github.com/oampudit"
-                style={{ color: "white" }}
-              >
-                <AiFillGithub />
-              </a>
-            </li>
-
-            <li className="social-icons">
-              <a
-                href="https://gitlab.com/oampudit"
-                style={{ color: "white" }}
-              >
-                <AiFillGitlab />
-              </a>
-            </li>
-
-            <li className="social-icons">
-              <a
-                href="https://www.linkedin.com/in/puditc"
-                style={{ color: "white" }}
-              >
-                <FaLinkedinIn />
-              </a>
-            </li>
-            <li className="social-icons">
-              <a
-                href="https://www.facebook.com/oam543"
-                style={{ color: "white" }}
-              >
-                <AiFillFacebook />
-              </a>
-            </li>
-            <li className="social-icons">
-              <a
-                href="https://www.instagram.com/oam_pudit"
-                style={{ color: "white" }}
-              >
-                <AiFillInstagram />
-              </a>
-            </li>
-          </ul>
-        </Col>
-      </Row>
-    </Container>
+    <footer className="footer-pro">
+      <Container>
+        <Row className="align-items-center">
+          <Col md={6} className="footer-left">
+            <span className="footer-name">Pudit Chokmeesuk</span>
+            <span className="footer-sub">Full-stack engineer · Bangkok</span>
+          </Col>
+          <Col md={6} className="footer-right">
+            <ul className="footer-links">
+              {LINKS.map(({ href, icon: Icon, label }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target={href.startsWith("mailto") ? undefined : "_blank"}
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    title={label}
+                  >
+                    <Icon />
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <span className="footer-copy">© {year}</span>
+          </Col>
+        </Row>
+      </Container>
+    </footer>
   );
 }
 
