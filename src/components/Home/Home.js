@@ -25,19 +25,21 @@ const GH_LINK = "https://github.com/oampudit";
 const LINKEDIN_LINK = "https://www.linkedin.com/in/puditc";
 const EMAIL_LINK = "mailto:pudit.chok@gmail.com";
 
+// Fallback shown only when the live GitHub API is rate-limited. Kept in
+// step with the real public repos so the cached view still rings true.
 const FB_LANGS = [
-  { name: "C#", pct: 38 },
-  { name: "TypeScript", pct: 24 },
-  { name: "Dart", pct: 16 },
-  { name: "JavaScript", pct: 14 },
-  { name: "PLSQL", pct: 8 },
+  { name: "HTML", pct: 40 },
+  { name: "Dart", pct: 20 },
+  { name: "JavaScript", pct: 16 },
+  { name: "C#", pct: 16 },
+  { name: "TypeScript", pct: 8 },
 ];
 const FB_FEED = [
   { verb: "push", arrow: true, repo: "blockclock-online", when: "2d" },
-  { verb: "create", arrow: false, repo: "regolich", when: "1w" },
-  { verb: "push", arrow: true, repo: "mystery-agents", when: "2w" },
-  { verb: "release", arrow: false, repo: "btc-clock", when: "3w" },
-  { verb: "push", arrow: true, repo: "portfolio", when: "1mo" },
+  { verb: "push", arrow: true, repo: "oampudit.github.io", when: "1w" },
+  { verb: "push", arrow: true, repo: "mysteryagents-web", when: "3w" },
+  { verb: "fork", arrow: false, repo: "alt-tab-macos", when: "1mo" },
+  { verb: "create", arrow: false, repo: "multiPlayBomberMan", when: "2mo" },
 ];
 
 const EVENT_VERB = {
@@ -263,7 +265,7 @@ export default function Home({ onNavigate }) {
         apply(out);
       } catch (e) {
         if (!mounted) return;
-        setStats({ repos: "12", followers: "cached · API rate-limited" });
+        setStats({ repos: "19", followers: "cached · API rate-limited" });
         setApiStatus("CACHED · API LIMIT");
       }
     })();

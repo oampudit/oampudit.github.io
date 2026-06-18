@@ -10,7 +10,7 @@ export const projects = [
     description: "Board game on mobile",
     imgPath: mysteryagents,
     demoLink: "https://mystery-agents.web.app/",
-    githubLink: "https://github.com/oampudit/mystery-agents",
+    githubLink: "https://github.com/oampudit/mysteryagents-web",
     category: "mobile",
     technologies: ["Flutter", "Dart", "Firebase", "Realtime DB"],
     features: [
@@ -108,8 +108,10 @@ useEffect(() => {
     description:
       "RegoLich combines MOBA and Battle Royale genres with Bitcoin integration via Lightning Network and Nostr for decentralized transactions.",
     imgPath: regolich,
-    demoLink: "https://regolich-project.firebaseapp.com/",
-    githubLink: "https://github.com/oampudit/regolich",
+    // Private work-in-progress — no public repo or demo yet, so both links
+    // are null and the UI hides the Live Demo / View Source buttons.
+    demoLink: null,
+    githubLink: null,
     category: "web",
     technologies: ["React", "Lightning Network", "Nostr", "Web3"],
     features: [

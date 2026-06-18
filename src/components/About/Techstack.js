@@ -3,16 +3,16 @@ import { Col, Row } from "react-bootstrap";
 import {
   DiReact,
   DiNodejs,
-  DiMongodb,
   DiGit,
 } from "react-icons/di";
 import {
   SiFlutter,
   SiAngular,
   SiCsharp,
+  SiDotnet,
   SiFirebase,
   SiOracle,
-  SiUnrealengine,
+  SiMicrosoftazure,
 } from "react-icons/si";
 
 function Techstack() {
@@ -20,6 +20,9 @@ function Techstack() {
     <Row style={{ justifyContent: "center", paddingBottom: "50px" }}>
       <Col xs={4} md={2} className="tech-icons">
         <SiCsharp />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <SiDotnet />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <SiAngular />
@@ -40,13 +43,10 @@ function Techstack() {
         <SiFirebase />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
-        <DiMongodb />
+        <SiMicrosoftazure />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <SiOracle />
-      </Col>
-      <Col xs={4} md={2} className="tech-icons">
-        <SiUnrealengine />
       </Col>
     </Row>
   );

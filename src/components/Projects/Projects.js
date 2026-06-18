@@ -205,9 +205,11 @@ function CaseStudyModal({ project, onClose }) {
           </Sec>
 
           <div className="cs-links">
-            <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="cs-link demo">
-              Live Demo <span>→</span>
-            </a>
+            {project.demoLink && (
+              <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className="cs-link demo">
+                Live Demo <span>→</span>
+              </a>
+            )}
             {project.githubLink && (
               <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="cs-link gh">
                 View Source <span>→</span>

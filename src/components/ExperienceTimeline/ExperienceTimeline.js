@@ -3,50 +3,8 @@ import { Container } from "react-bootstrap";
 import { motion } from "framer-motion";
 import useTilt from "../../hooks/useTilt";
 import useSpotlight from "../../hooks/useSpotlight";
+import { experience as EXPERIENCES } from "../../data/experience";
 import "./ExperienceTimeline.css";
-
-const EXPERIENCES = [
-  {
-    id: 1,
-    company: "PTT Digital Solutions",
-    position: "Mid-Level Software Developer",
-    period: "Nov 2023 — Present",
-    location: "Bangkok, Thailand",
-    achievements: [
-      "Full-stack delivery of web and application solutions.",
-      "Designed and deployed modules with clean business integration.",
-      "Hardened systems via Azure Functions, Web Apps, Key Vault.",
-      "Lifted operational documentation and runbook quality.",
-    ],
-    technologies: ["C#", ".NET Core", "Azure", "Angular", "SQL Server"],
-  },
-  {
-    id: 2,
-    company: "Bangkok Life Assurance",
-    position: "Software Developer",
-    period: "Apr 2021 — Nov 2023",
-    location: "Bangkok, Thailand",
-    achievements: [
-      "Rewrote the group-insurance core; performance and security up across the board.",
-      "Designed the customer mobile app: claims, notifications, history.",
-      "Owned full release cycles in C# .NET Core, Oracle, Dart, Flutter.",
-    ],
-    technologies: ["C#", ".NET Core", "Oracle", "Dart", "Flutter"],
-  },
-  {
-    id: 3,
-    company: "BizCon Solutions",
-    position: "System Engineer",
-    period: "Aug 2019 — Jan 2021",
-    location: "Bangkok, Thailand",
-    achievements: [
-      "Operated infrastructure for SET, Betagro, FWD.",
-      "Migrations and installations: Windows Server, Active Directory, Exchange.",
-      "Reduced incident frequency through proactive monitoring.",
-    ],
-    technologies: ["Windows Server", "Active Directory", "Exchange", "System Admin"],
-  },
-];
 
 function TiltItem({ children }) {
   const tilt = useTilt({ max: 4, scale: 1.005 });

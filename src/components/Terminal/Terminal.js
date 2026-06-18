@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "../../data/projects";
+import { experience } from "../../data/experience";
 import "./Terminal.css";
 
 const BANNER = [
@@ -48,19 +49,16 @@ const SKILLS = [
   "other       Git  ·  Bitcoin / Lightning / Nostr",
 ];
 
-const EXPERIENCE = [
-  "PTT Digital Solutions — Mid-Level Software Developer",
-  "  Nov 2023 – Present · Bangkok, Thailand",
-  "  Full-stack web + application modules on Azure.",
-  "",
-  "Bangkok Life Assurance — Software Developer",
-  "  Apr 2021 – Nov 2023 · Bangkok, Thailand",
-  "  Rewrote group-insurance core; mobile claims app in Flutter.",
-  "",
-  "BizCon Solutions — System Engineer",
-  "  Aug 2019 – Jan 2021 · Bangkok, Thailand",
-  "  Infra for SET, Betagro, FWD — AD, Exchange, migrations.",
-];
+// Derived from the shared experience source so the terminal can't drift
+// out of sync with the About / Timeline cards.
+const EXPERIENCE = experience
+  .flatMap((e) => [
+    `${e.company} — ${e.position}`,
+    `  ${e.period} · ${e.location}`,
+    `  ${e.summary}`,
+    "",
+  ])
+  .slice(0, -1);
 
 const CONTACT = [
   "email:      pudit.chok@gmail.com",
@@ -101,6 +99,7 @@ function runCommand(raw, ctx) {
     case "open": {
       const p = projects.find((p) => p.id === arg || p.title.toLowerCase() === arg);
       if (!p) return [`open: no project named "${arg}". try \`projects\`.`];
+      if (!p.demoLink) return [`open: ${p.title} has no public demo yet.`];
       window.open(p.demoLink, "_blank", "noopener,noreferrer");
       return [`opening ${p.title} → ${p.demoLink}`];
     }
@@ -120,8 +119,8 @@ function runCommand(raw, ctx) {
         "metrics:",
         ...p.metrics.map((m) => `  ${m.label.padEnd(28)} ${m.value}`),
         "",
-        `demo:   ${p.demoLink}`,
-        `source: ${p.githubLink}`,
+        ...(p.demoLink ? [`demo:   ${p.demoLink}`] : []),
+        ...(p.githubLink ? [`source: ${p.githubLink}`] : []),
       ];
     }
     case "goto":
