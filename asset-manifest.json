@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.06983c5b.css",
+    "main.css": "/static/css/main.0919a402.css",
     "main.js": "/static/js/main.5bb2f258.js",
     "static/js/453.a5fa49c2.chunk.js": "/static/js/453.a5fa49c2.chunk.js",
     "static/media/profile.png": "/static/media/profile.6625dd9f561dd83cd78f.png",
@@ -8,14 +8,14 @@
     "static/media/regolich.png": "/static/media/regolich.9b732ed66d687509d554.png",
     "static/media/btc-clock.png": "/static/media/btc-clock.8cf341b96e15feca11cc.png",
     "static/media/about.png": "/static/media/about.1d75f121bacfbb22bd8b.png",
-    "static/media/pre.svg": "/static/media/pre.9b1a077e8bfd8ba97f7b.svg",
+    "static/media/pre.svg": "/static/media/pre.848632340693a099627d.svg",
     "index.html": "/index.html",
-    "main.06983c5b.css.map": "/static/css/main.06983c5b.css.map",
+    "main.0919a402.css.map": "/static/css/main.0919a402.css.map",
     "main.5bb2f258.js.map": "/static/js/main.5bb2f258.js.map",
     "453.a5fa49c2.chunk.js.map": "/static/js/453.a5fa49c2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.06983c5b.css",
+    "static/css/main.0919a402.css",
     "static/js/main.5bb2f258.js"
   ]
 }
