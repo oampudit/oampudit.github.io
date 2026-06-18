@@ -183,6 +183,12 @@
   background: rgba(252, 211, 77, 0.06);
 }
 
+.pc-status.pc-archived {
+  color: #9aa0a6;
+  border-color: rgba(154, 160, 166, 0.28);
+  background: rgba(154, 160, 166, 0.06);
+}
+
 .pc-desc {
   color: var(--text-muted);
   font-size: 0.9rem;
@@ -331,6 +337,7 @@
 
 .cs-status.cs-completed { color: var(--success); border-color: rgba(134, 239, 172, 0.3); }
 .cs-status.cs-in-progress { color: var(--warn); border-color: rgba(252, 211, 77, 0.3); }
+.cs-status.cs-archived { color: #9aa0a6; border-color: rgba(154, 160, 166, 0.3); }
 
 .cs-year {
   font-family: var(--font-mono);

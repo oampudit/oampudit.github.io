@@ -63,7 +63,7 @@ Future<void> dealRoles(String roomId) async {
     demoLink: "https://blockclock-online.firebaseapp.com/",
     githubLink: "https://github.com/oampudit/blockclock-online",
     category: "web",
-    technologies: ["React", "JavaScript", "Firebase Hosting", "Mempool API"],
+    technologies: ["Flutter", "Dart", "Firebase Hosting", "Mempool API"],
     features: [
       "Live block height via WebSocket",
       "Price + sats/USD updated every tick",
@@ -75,10 +75,10 @@ Future<void> dealRoles(String roomId) async {
     problem:
       "Commercial Bitcoin 'block clocks' cost $400+ and only show one metric. I wanted the same ambient info on any old tablet I had lying around — free, full-screen, and self-updating.",
     architecture: [
-      "Single-page React app, static hosted on Firebase — no backend.",
+      "Single-page Flutter web app, static hosted on Firebase — no backend.",
       "WebSocket subscription to mempool.space for sub-second block updates.",
       "Separate REST poll for price on a slower interval (no rate-limit risk).",
-      "Everything animated with CSS transforms so an old iPad stays at 60fps.",
+      "Everything animated client-side so an old iPad stays at 60fps.",
     ],
     codeSnippet: {
       language: "javascript",
@@ -120,7 +120,7 @@ useEffect(() => {
       "Non-custodial — no wallet held by the server",
       "Match replays signed by the winning player",
     ],
-    status: "in-progress",
+    status: "archived",
     year: 2024,
     problem:
       "Existing 'crypto games' bolt a token on top of gameplay. I wanted the opposite — a real arena-style match where Bitcoin payments are only the settlement layer and Nostr is only the transport, both invisible until a player cares.",
@@ -160,5 +160,5 @@ export const filters = [
   { id: "web", label: "Web Apps" },
   { id: "mobile", label: "Mobile Apps" },
   { id: "completed", label: "Completed" },
-  { id: "in-progress", label: "In Progress" },
+  { id: "archived", label: "Archived" },
 ];

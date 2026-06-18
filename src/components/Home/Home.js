@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { projects } from "../../data/projects";
 import profileImg from "../../Assets/profile.png";
-import resumePdf from "../../Assets/Pudit-Resume.pdf";
 import "./Home.css";
 
 /* ------------------------------------------------------------------ */
@@ -310,15 +309,6 @@ export default function Home({ onNavigate }) {
                 >
                   View work <span>→</span>
                 </button>
-                <a
-                  className="hd-btn hd-btn-ghost"
-                  href={resumePdf}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  {...magneticHandlers()}
-                >
-                  Résumé
-                </a>
               </div>
             </div>
 

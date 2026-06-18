@@ -64,7 +64,6 @@ const CONTACT = [
   "email:      pudit.chok@gmail.com",
   "github:     https://github.com/oampudit",
   "linkedin:   https://linkedin.com/in/puditc",
-  "resume:     /Pudit-Resume.pdf",
 ];
 
 const SECTIONS = ["home", "about", "skills", "experience", "projects"];
