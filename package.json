@@ -3,7 +3,6 @@
   "version": "2.0.0",
   "private": true,
   "dependencies": {
-    "@react-pdf/renderer": "^2.2.0",
     "@react-three/drei": "^9.92.7",
     "@react-three/fiber": "^8.15.16",
     "@testing-library/jest-dom": "^5.16.2",
@@ -20,7 +19,6 @@
     "react-icons": "^4.8.0",
     "react-intersection-observer": "^8.34.0",
     "react-parallax-tilt": "^1.7.42",
-    "react-pdf": "^10.0.1",
     "react-rounded-image": "^2.0.15",
     "react-scripts": "5.0.1",
     "react-spring": "^9.4.5",
