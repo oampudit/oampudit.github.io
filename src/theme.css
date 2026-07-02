@@ -124,6 +124,25 @@ html, body, #root {
 }
 
 /* ------------------------------------------------------------------ */
+/* Keyboard focus — restore a visible ring for keyboard users.         */
+/* Legacy rules (button:focus { box-shadow:none }, .btn:focus {         */
+/* outline:none }) stripped focus styling; :focus-visible brings it     */
+/* back for keyboard nav only, without showing a ring on mouse clicks.  */
+/* ------------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
 /* Footer (overrides legacy .footer rules)                            */
 /* ------------------------------------------------------------------ */
 

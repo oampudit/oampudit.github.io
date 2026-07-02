@@ -66,7 +66,7 @@ const CONTACT = [
   "linkedin:   https://linkedin.com/in/puditc",
 ];
 
-const SECTIONS = ["home", "about", "skills", "experience", "projects"];
+const SECTIONS = ["home", "about", "skills", "experience", "projects", "github"];
 
 function runCommand(raw, ctx) {
   const [cmd, ...rest] = raw.trim().split(/\s+/);

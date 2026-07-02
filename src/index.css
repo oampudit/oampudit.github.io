@@ -1,6 +1,6 @@
-/* Load the fonts referenced by the design tokens in theme.css
-   (--font-sans / --font-mono). Body font + background are set there. */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+/* Fonts (Inter / JetBrains Mono / Instrument) are loaded via a non-blocking
+   <link> in public/index.html so they don't block first paint. Body font +
+   background are set from the design tokens in theme.css. */
 
 body {
   margin: 0;

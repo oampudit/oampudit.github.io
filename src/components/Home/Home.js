@@ -309,6 +309,13 @@ export default function Home({ onNavigate }) {
                 >
                   View work <span>→</span>
                 </button>
+                <a
+                  className="hd-btn hd-btn-ghost"
+                  href={EMAIL_LINK}
+                  {...magneticHandlers()}
+                >
+                  Get in touch <span>→</span>
+                </a>
               </div>
             </div>
 
